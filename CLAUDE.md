@@ -19,3 +19,11 @@ Behoud ontwerp, teksten, alle pagina’s, foto’s en interacties totdat de gebr
 Werk alleen in de voor Hydrocare bestemde nieuwe repository. Geen andere Studio V-repositories aanpassen. Nooit secrets, tokens of wachtwoorden committen. Geen force-push over bestaande inhoud.
 
 Het formulier blijft demo totdat de gebruiker een operationele koppeling opdraagt. Verzin geen diensten, contactgegevens, reviews of bedrijfsclaims. De precieze diensten en contactaccounts zijn nog niet bevestigd. Houd noindex actief tot expliciet toestemming voor productie wordt gegeven.
+
+## Redesign (branch `claude/hydrocare-premium-redesign-lgvcn8`)
+Op uitdrukkelijk verzoek van de gebruiker is het ontwerp vernieuwd; inhoud, foto’s, logo en functionaliteit zijn behouden. Zie `docs/redesign/` voor screenshots.
+- Ontwerpsysteem staat bovenaan `dist/style.css` (tokens: kleur, type, ruimte, beweging). Typografie: Instrument Serif + Geist, zelf gehost in `dist/assets/fonts/` (SIL OFL, licenties erbij) omdat de CSP externe fonts blokkeert.
+- Merkelementen: `mark.webp` / `mark-white.webp` (druppel, uit het aangeleverde logo gefreesd met transparantie), `drop.svg` (venstervorm voor de hero-foto), `drop-outline.svg`.
+- Geen inline `style`-attributen of inline scripts: de CSP in `dist/_headers` staat dat niet toe. `scripts/check.py` controleert nu ook `url()`-verwijzingen in de CSS.
+- Voor/na-beelden blijven naast elkaar met de oorspronkelijke eerlijke bijschriften; er is bewust geen overlappende schuifvergelijking (camerahoek verschilt).
+- Nog steeds van kracht: demo-formulier, noindex, geen verzonnen diensten/contactgegevens/reviews, geen productiepublicatie.

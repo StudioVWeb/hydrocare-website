@@ -37,6 +37,11 @@ def main():
             target=target.resolve()
             if not target.is_relative_to(DIST.resolve()) or not target.is_file():issues.append(rel+': broken reference '+raw)
             elif u.fragment and target in pages and unquote(u.fragment) not in pages[target].ids:issues.append(rel+': broken fragment '+raw)
+    import re
+    css=(DIST/'style.css').read_text(encoding='utf-8')
+    for raw in re.findall(r'url\(([^)]+)\)',css):
+        raw=raw.strip('\'"')
+        if raw.startswith('/') and not (DIST/raw.lstrip('/')).is_file():issues.append('dist/style.css: broken url() '+raw)
     count=0
     if '--baseline' in sys.argv:
         provenance=json.loads((ROOT/'SOURCE_PROVENANCE.json').read_text())

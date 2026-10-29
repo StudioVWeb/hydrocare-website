@@ -1,0 +1,119 @@
+# Non-deploy experiment: install Impeccable for Claude Code and benchmark Hydrocare.
+# Never references Cloudflare credentials, domains, production or other repositories.
+name: Hydrocare / Impeccable pilot (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/impeccable-hydrocare-20261029
+  workflow_dispatch:
+
+permissions:
+  contents: write # Only to save generated Claude skill files on this pilot branch.
+
+concurrency:
+  group: hydrocare-impeccable-pilot
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    if: github.ref == 'refs/heads/experiment/impeccable-hydrocare-20261029'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      DO_NOT_TRACK: "1"
+      IMPECCABLE_NO_TELEMETRY: "1"
+      NO_COLOR: "1"
+    steps:
+      - name: Checkout pilot branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify source and generated preview
+        run: |
+          python3 build.py
+          python3 scripts/check.py
+          node --check dist/app.js
+
+      - name: Install pinned Impeccable Claude Code skill (noninteractive)
+        run: |
+          npx --yes impeccable@4.8.0 install -y --providers=claude --scope=project --no-hooks
+          test -s .claude/skills/impeccable/SKILL.md
+          npx --yes impeccable@4.8.0 --version
+
+      - name: Detect source issues
+        shell: bash
+        run: |
+          mkdir -p reports/impeccable
+          set +e
+          npx --yes impeccable@4.8.0 detect --json dist > reports/impeccable/source.json 2> reports/impeccable/source.stderr
+          result=$?
+          set -e
+          echo "$result" > reports/impeccable/source.exit
+          echo "Source detector exit: $result (0=clean, 2=findings, 1=scan failed)" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$result" -ne 0 ] && [ "$result" -ne 2 ]; then
+            cat reports/impeccable/source.stderr
+            exit 1
+          fi
+
+      - name: Detect rendered pages
+        shell: bash
+        run: |
+          mkdir -p reports/impeccable/rendered
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist >/tmp/hydrocare-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+          for route in home diensten realisaties over contact privacy; do
+            case "$route" in home) path=/ ;; *) path="/$route/" ;; esac
+            set +e
+            npx --yes impeccable@4.8.0 detect --json "http://127.0.0.1:4173$path" > "reports/impeccable/rendered/$route.json" 2> "reports/impeccable/rendered/$route.stderr"
+            result=$?
+            set -e
+            echo "$result" > "reports/impeccable/rendered/$route.exit"
+            echo "$route: detector exit $result" >> "$GITHUB_STEP_SUMMARY"
+            if [ "$result" -ne 0 ] && [ "$result" -ne 2 ]; then
+              cat "reports/impeccable/rendered/$route.stderr"
+              exit 1
+            fi
+          done
+
+      - name: Attach raw Impeccable reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hydrocare-impeccable-baseline
+          path: reports/impeccable/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Save installed skill to pilot branch only
+        if: success() && github.ref == 'refs/heads/experiment/impeccable-hydrocare-20261029'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .claude/skills/impeccable
+          if git diff --cached --quiet; then
+            echo "Claude skill already committed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            git commit -m "chore: install Impeccable 4.8.0 skill for Claude Code [skip ci]"
+            git push origin HEAD:experiment/impeccable-hydrocare-20261029
+            echo "Installed skill committed to experiment branch." >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -194,7 +194,7 @@ figcaption b{font-family:var(--serif);font-weight:400;font-size:1.25rem;color:va
 .steps{list-style:none;margin:clamp(2.5rem,2rem + 3vw,5rem) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);counter-reset:s}
 .steps li{position:relative;padding-top:var(--s4);border-top:1px solid var(--line)}
 .steps li::before{content:"";position:absolute;top:-6px;left:0;width:11px;height:11px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--blue)}
-.step-num{display:block;font-family:var(--serif);font-size:clamp(4rem,3rem + 4vw,7rem);line-height:.9;color:var(--sky);margin-bottom:var(--s3)}
+.step-num{display:block;font-family:var(--serif);font-size:clamp(4rem,3rem + 4vw,7rem);line-height:.9;color:var(--blue-ink);margin-bottom:var(--s3)}
 .steps h3{max-width:11em;font-size:clamp(1.6rem,1.3rem + 1vw,2.2rem)}
 .steps p{color:var(--muted);font-size:.9375rem;max-width:22rem;margin:0}
 
@@ -408,6 +408,15 @@ dialog[open]{animation:fade .35s var(--ease) both}
   .hero h1{font-size:clamp(3.4rem,15.2vw,6rem)}
   .hero-visual{width:min(84%,380px);justify-self:center;margin-top:.5rem}
   .hero-label{left:-4%;bottom:5%;max-width:12.5rem;padding:.85rem 1rem}
+  @media (min-width:641px){
+    .hero-grid{position:relative;display:block;padding-bottom:clamp(2.5rem,4vw,3.5rem)}
+    .hero-copy{max-width:50%}
+    .hero-visual{position:absolute;right:0;top:clamp(1.5rem,4vw,3rem);width:46%;margin:0;justify-self:auto}
+    .hero-label{left:-4%;bottom:7%;max-width:14.5rem;padding:1rem 1.1rem 1.05rem}
+    .hero-label strong{font-size:1.6rem}
+    .vertical-label{display:none}
+    .hero h1{font-size:clamp(3.4rem,2.2rem + 4.4vw,5.25rem)}
+  }
   .hero-label strong{font-size:1.4rem}
   .vertical-label{display:none}
   .hero-foot{margin-top:var(--s3)}
@@ -446,7 +455,7 @@ dialog[open]{animation:fade .35s var(--ease) both}
   .hero-facts li{padding-block:.7rem;border-bottom:1px solid var(--line-dark)}
   .hero-facts li:last-child{border-bottom:0}
   .hero-actions .button{width:100%}
-  .preview-bar span{display:block;margin:0}
+  .preview-bar span{display:none}
   .footer-links{grid-template-columns:1fr 1fr}
   .footer-bottom{flex-direction:column}
   .svc{grid-template-columns:1fr 5.5rem}

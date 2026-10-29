@@ -27,3 +27,11 @@ Op uitdrukkelijk verzoek van de gebruiker is het ontwerp vernieuwd; inhoud, foto
 - Geen inline `style`-attributen of inline scripts: de CSP in `dist/_headers` staat dat niet toe. `scripts/check.py` controleert nu ook `url()`-verwijzingen in de CSS.
 - Voor/na-beelden blijven naast elkaar met de oorspronkelijke eerlijke bijschriften; er is bewust geen overlappende schuifvergelijking (camerahoek verschilt).
 - Nog steeds van kracht: demo-formulier, noindex, geen verzonnen diensten/contactgegevens/reviews, geen productiepublicatie.
+
+
+## Hydrocare Impeccable pilot (alleen branch pilot/impeccable-hydrocare-20261029)
+De gebruiker wil **Impeccable met Claude Code evalueren**, met Hydrocare als testobject voordat toepassing op Babo wordt overwogen. Lees eerst PRODUCT.md, DESIGN.md en docs/impeccable/HYDROCARE_PILOT.md. Die documenten zijn de product- en ontwerpwaarheid; overschrijf ze niet met speculatieve AI-tekst.
+
+Installeer de officiële projectskill van pbakaus/impeccable@4.8.0 in Claude Code, activeer na inspectie de officiële ontwerp-hook, verifieer de installatie, maak een voor/na-audit, en voer alleen een gecontroleerde kleine polish-pass uit op bestaande Hydrocare-webpagina's. Gebruik Impeccable met de juiste Claude-slashcommands (/impeccable init, document, critique, audit, polish). Geen willekeurige restyling of vervanging van echte assets.
+
+Werk alleen op deze pilotbranch of een daarop gebaseerde testbranch. Houd beide bestaande PR's, main, domeinen, productie, Cloudflare, demoformulier, robots/noindex en CSP onaangeroerd. Geen deploy zonder expliciete opdracht. Run python3 build.py, python3 scripts/check.py en node --check dist/app.js, verifieer desktop/mobiel/toegankelijkheid en rapporteer concrete voor/na-bewijzen. Een CI-detectorrapport alleen betekent niet dat de Claude-test afgerond is.

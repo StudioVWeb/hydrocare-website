@@ -20,6 +20,10 @@ Open daarna `http://127.0.0.1:4173/`. Op Windows kun je `py` gebruiken waar hier
 
 De website is statisch. De map `dist` bevat naast uitvoer ook de oorspronkelijke CSS-, JavaScript- en afbeeldingsbronnen. Het is dus **geen wegwerpmap**: verwijder `dist` niet vóór een build. `build.py` maakt de HTML-pagina’s, robots.txt en headers opnieuw aan, maar kopieert geen ontbrekende CSS of assets terug.
 
+## Premium redesign
+
+De featurebranch `claude/hydrocare-premium-redesign-lgvcn8` bevat het vernieuwde ontwerp (editorial typografie, druppelvormige hero, gespreide fotodiptiek, contactbalie, mobiele dock en menu). Bevestigde inhoud, foto’s en functies zijn ongewijzigd; zie `docs/redesign/` voor screenshots. `scripts/check.py --baseline` wijkt hier bewust af van de oorspronkelijke export.
+
 ## Structuur en onderhoud
 
 | Bestand/map | Functie |

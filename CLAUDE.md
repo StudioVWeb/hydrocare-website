@@ -27,3 +27,10 @@ Op uitdrukkelijk verzoek van de gebruiker is het ontwerp vernieuwd; inhoud, foto
 - Geen inline `style`-attributen of inline scripts: de CSP in `dist/_headers` staat dat niet toe. `scripts/check.py` controleert nu ook `url()`-verwijzingen in de CSS.
 - Voor/na-beelden blijven naast elkaar met de oorspronkelijke eerlijke bijschriften; er is bewust geen overlappende schuifvergelijking (camerahoek verschilt).
 - Nog steeds van kracht: demo-formulier, noindex, geen verzonnen diensten/contactgegevens/reviews, geen productiepublicatie.
+
+## Impeccable-pilot (alleen branch `experiment/impeccable-hydrocare-20261029`)
+Lees eerst `PRODUCT.md`, `DESIGN.md` en `docs/impeccable-pilot.md`. Dit is een afgeschermd experiment op de bestaande premium-redesignbranch, geen toestemming om productie te wijzigen.
+
+Installeer en activeer de Impeccable-skill in **deze repo** met `npx --yes impeccable@4.8.0 install -y --providers=claude --scope=project`. Herstart Claude Code waar nodig en controleer de skill met `/impeccable`. Gebruik vervolgens `/impeccable init`, `/impeccable audit`, `/impeccable critique` en gerichte `/impeccable polish`-rondes. Beschouw CLI-detectorbevindingen als signalen, niet als een automatisch ontwerpvonnis.
+
+Eerst nulmeting + screenshots en alle tests; pas daarna gerichte verbeteringen en dezelfde meting opnieuw. Documenteer belangrijke aanpassingen met voor/na en rapporteer beperkingen, accessibility en mobiele afwijkingen. Verzin geen content. Noindex en demoformulier onaangetast. Geen Cloudflare-release, merge naar `main`, domeinwijziging of secrets. Laat de bestaande redesign-PR ongemoeid.

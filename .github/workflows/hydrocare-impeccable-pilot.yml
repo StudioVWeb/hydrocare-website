@@ -143,6 +143,43 @@ jobs:
               except Exception as exc:
                   count = f"JSON parse error: {type(exc).__name__}"
               lines.append(f"| {raw.parent.name}/{raw.stem} | {exit_code} | {count} |")
+          # Keep representative detector findings in git for an auditable review.
+          from collections import Counter
+          def findings_for(file):
+              try:
+                  value = json.loads(file.read_text(encoding="utf-8"))
+              except Exception:
+                  return []
+              if isinstance(value, list):
+                  return value
+              if isinstance(value, dict):
+                  for k in ("findings", "issues", "results", "diagnostics"):
+                      if isinstance(value.get(k), list):
+                          return value[k]
+              return []
+          def name_of(issue):
+              if not isinstance(issue, dict):
+                  return "unstructured"
+              rule = next((issue.get(k) for k in ("ruleId", "rule_id", "rule", "ruleName", "id", "code") if issue.get(k)), "unknown")
+              if isinstance(rule, dict):
+                  rule = rule.get("id") or rule.get("name") or "unknown"
+              return str(rule).replace("|", "/")[:100]
+          def message_of(issue):
+              if not isinstance(issue, dict):
+                  return str(issue)[:160]
+              msg = issue.get("message") or issue.get("description") or issue.get("title") or ""
+              if isinstance(msg, dict):
+                  msg = msg.get("text") or str(msg)
+              return " ".join(str(msg).replace("|", "/").split())[:160]
+          source_issues = findings_for(base / "source.json")
+          homepage_issues = findings_for(base / "rendered" / "home.json")
+          counts = Counter(name_of(item) for item in source_issues)
+          lines += ["", "## Most common source rules", "", "| Rule | Count |", "| --- | ---: |"]
+          for rule, count in counts.most_common(15):
+              lines.append(f"| {rule} | {count} |")
+          lines += ["", "## Homepage: sample of raw findings", "", "| Rule | Detector message |", "| --- | --- |"]
+          for item in homepage_issues[:18]:
+              lines.append(f"| {name_of(item)} | {message_of(item)} |")
           lines += [
               "",
               "Exit code 0 = no finding; 2 = findings; 1 = scan error. The exact rule output is saved as a GitHub Actions artifact for this run.",

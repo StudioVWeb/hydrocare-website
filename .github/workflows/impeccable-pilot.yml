@@ -1,0 +1,81 @@
+name: Hydrocare Impeccable pilot (isolated)
+
+on:
+  push:
+    branches:
+      - pilot/impeccable-hydrocare-20261029
+  pull_request:
+    branches:
+      - claude/hydrocare-premium-redesign-lgvcn8
+    paths:
+      - 'build.py'
+      - 'dist/**'
+      - '.impeccable/**'
+      - 'PRODUCT.md'
+      - 'DESIGN.md'
+      - 'CLAUDE.md'
+      - '.github/workflows/impeccable-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Build, install and inspect (no deploy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      DO_NOT_TRACK: '1'
+      IMPECCABLE_NO_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify source site integrity
+        run: |
+          python3 build.py
+          python3 scripts/check.py
+          node --check dist/app.js
+      - name: Install Impeccable 4.8.0 in the temporary runner checkout
+        run: |
+          npx --yes impeccable@4.8.0 install --providers=claude --scope=project --no-hooks
+          test -s .claude/skills/impeccable/SKILL.md
+          npx --yes impeccable@4.8.0 --version
+      - name: Static and rendered design detector
+        run: |
+          mkdir -p reports/impeccable
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist >reports/impeccable/server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl --fail --silent --output /dev/null http://127.0.0.1:4173/; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --output /dev/null http://127.0.0.1:4173/
+          for entry in "source|dist" "home|http://127.0.0.1:4173/" "contact|http://127.0.0.1:4173/contact/" "realisaties|http://127.0.0.1:4173/realisaties/"; do
+            name="${entry%%|*}"
+            target="${entry#*|}"
+            set +e
+            timeout 100s npx --yes impeccable@4.8.0 detect --json "$target" > "reports/impeccable/$name.json" 2> "reports/impeccable/$name.stderr.log"
+            status=$?
+            set -e
+            echo "$name: detector exit $status" | tee "reports/impeccable/$name.status"
+            if [ "$status" -ne 0 ] && [ "$status" -ne 2 ]; then
+              echo "::error::Impeccable failed to scan $name (exit $status); inspect artifact"
+              exit 1
+            fi
+          done
+      - name: Upload pilot reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hydrocare-impeccable-audit
+          path: reports/impeccable
+          if-no-files-found: warn
+          retention-days: 14

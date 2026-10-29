@@ -47,7 +47,7 @@ def render(route,title,body,desc,slug):
 for route,(title,body,desc) in pages.items():
  path=p/route.strip('/')/'index.html';path.parent.mkdir(exist_ok=True,parents=True)
  slug=route.strip('/') or 'home'
- path.write_text(render(route,title,body,desc,slug))
-(p/'robots.txt').write_text('User-agent: *\nDisallow: /\n')
-(p/'_headers').write_text('/*\n  X-Robots-Tag: noindex, nofollow, noarchive\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Content-Security-Policy: default-src \'self\'; img-src \'self\' blob:; style-src \'self\'; script-src \'self\'; connect-src \'none\'; form-action \'none\'; base-uri \'none\'; frame-ancestors \'none\'\n')
-(p/'404.html').write_text(render('/404.html','Pagina niet gevonden · Hydrocare',intro('404','Deze pagina bestaat niet.','Via de navigatie vindt u de projectbeelden, werkzaamheden en contactpagina.')+'<section class="wrap section">'+button('Terug naar home','/')+'</section>','Via de navigatie vindt u de projectbeelden, werkzaamheden en contactpagina.','404'))
+ path.write_text(render(route,title,body,desc,slug), encoding='utf-8')
+(p/'robots.txt').write_text('User-agent: *\nDisallow: /\n', encoding='utf-8')
+(p/'_headers').write_text('/*\n  X-Robots-Tag: noindex, nofollow, noarchive\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Content-Security-Policy: default-src \'self\'; img-src \'self\' blob:; style-src \'self\'; script-src \'self\'; connect-src \'none\'; form-action \'none\'; base-uri \'none\'; frame-ancestors \'none\'\n', encoding='utf-8')
+(p/'404.html').write_text(render('/404.html','Pagina niet gevonden · Hydrocare',intro('404','Deze pagina bestaat niet.','Via de navigatie vindt u de projectbeelden, werkzaamheden en contactpagina.')+'<section class="wrap section">'+button('Terug naar home','/')+'</section>','Via de navigatie vindt u de projectbeelden, werkzaamheden en contactpagina.','404'), encoding='utf-8')

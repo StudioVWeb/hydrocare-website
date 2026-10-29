@@ -1,0 +1,202 @@
+{
+  "export_type": "exact-original-source-with-documented-handoff-additions",
+  "site_project_id": "appgprj_6ae2e9fdd740819189e97350c2143496",
+  "saved_version_id": "appgprj_6ae2e9fdd740819189e97350c2143496~appgver_cce6a8d09b6c8191bd5f71e3770e7c13",
+  "saved_version_number": 1,
+  "source_commit": "062575d03a1c638634d84d6220d7d01206afa6ed",
+  "export_date": "2026-10-29",
+  "original_source_file_count": 25,
+  "source_files": [
+    {
+      "source_path": ".openai/hosting.json",
+      "exported_path": ".openai/hosting.json",
+      "sha256": "995b14dcd92be32c16110d3c92cd8c616620060a64b45014a20f3a58518d1dc4",
+      "size_bytes": 106
+    },
+    {
+      "source_path": "README.md",
+      "exported_path": "docs/sites-readme-original.md",
+      "sha256": "75e0f7e64bebb2825b8344908ec8954dc1913d5a81b680fc9557eeb40bf2bd2e",
+      "size_bytes": 5171
+    },
+    {
+      "source_path": "build.py",
+      "exported_path": "build.py",
+      "sha256": "98bac0f0ad55d09284f6f518e8a4d897cbe1f2cda63109ed827bcfabd95720e9",
+      "size_bytes": 19334
+    },
+    {
+      "source_path": "dist/404.html",
+      "exported_path": "dist/404.html",
+      "sha256": "1e6403c1c99f7d3590841ccd9447532c8e5728b7fde1d9fe2dcd9cbd73059cab",
+      "size_bytes": 2823
+    },
+    {
+      "source_path": "dist/_headers",
+      "exported_path": "dist/_headers",
+      "sha256": "091a19335d555d2fa7e7ef47a35c35632c770bb2a624f8cdf991efb1b63b85d7",
+      "size_bytes": 382
+    },
+    {
+      "source_path": "dist/app.js",
+      "exported_path": "dist/app.js",
+      "sha256": "3a80c3d199490842de9b188686da7cf299acf3ae640aaf0f57c9e1c5681b3c56",
+      "size_bytes": 4673
+    },
+    {
+      "source_path": "dist/assets/dak-resultaat-800.webp",
+      "exported_path": "dist/assets/dak-resultaat-800.webp",
+      "sha256": "d8aec6ef1ae31092e551a9378ea65a455e7c32fe64bc07b36e2e2196a939680e",
+      "size_bytes": 159808
+    },
+    {
+      "source_path": "dist/assets/dak-resultaat.webp",
+      "exported_path": "dist/assets/dak-resultaat.webp",
+      "sha256": "794f41c96c6fa625793e8b98c58183acc46935645a0e588a410793c5230a46bb",
+      "size_bytes": 893748
+    },
+    {
+      "source_path": "dist/assets/dak-voor-800.webp",
+      "exported_path": "dist/assets/dak-voor-800.webp",
+      "sha256": "0e18087f168191c7f32ec479190f2709d1208e5c80e69aac5d2647086e3047dc",
+      "size_bytes": 172836
+    },
+    {
+      "source_path": "dist/assets/dak-voor.webp",
+      "exported_path": "dist/assets/dak-voor.webp",
+      "sha256": "b46fc34e4456ccb6008c4cabb3d161aaf566d502480b2274a4f5e4d878005ff0",
+      "size_bytes": 954582
+    },
+    {
+      "source_path": "dist/assets/dakgoot-detail-800.webp",
+      "exported_path": "dist/assets/dakgoot-detail-800.webp",
+      "sha256": "5619bbcb84fcec5e275d53b0a39b4cfc8cb6ab904948c3cdceac6011f6c47bed",
+      "size_bytes": 124036
+    },
+    {
+      "source_path": "dist/assets/dakgoot-detail.webp",
+      "exported_path": "dist/assets/dakgoot-detail.webp",
+      "sha256": "4d6be13ddca56a3338c3ee5e1616636cd3535cbfa7ccafedd7fdfc62de2ed8e4",
+      "size_bytes": 681590
+    },
+    {
+      "source_path": "dist/assets/dakgoot-resultaat-800.webp",
+      "exported_path": "dist/assets/dakgoot-resultaat-800.webp",
+      "sha256": "31dd074f57263959207699208ea3acbffbeac25a25f6b505e49f3bbf3f816d0b",
+      "size_bytes": 119384
+    },
+    {
+      "source_path": "dist/assets/dakgoot-resultaat.webp",
+      "exported_path": "dist/assets/dakgoot-resultaat.webp",
+      "sha256": "d759bfa1c2be0040820dd08fffb38f313e2a9239aa4547638b11a212280d0fd8",
+      "size_bytes": 624278
+    },
+    {
+      "source_path": "dist/assets/favicon.png",
+      "exported_path": "dist/assets/favicon.png",
+      "sha256": "f27ac01fe34bd51493001cb6e6365f768e698676602f1e331d1f341fe11a2bf7",
+      "size_bytes": 15646
+    },
+    {
+      "source_path": "dist/assets/logo.webp",
+      "exported_path": "dist/assets/logo.webp",
+      "sha256": "33c11f5b6ac47651e11279d4d73b47b2e3eaae91a21529cf06ef8e6131e52dd1",
+      "size_bytes": 48840
+    },
+    {
+      "source_path": "dist/assets/og.jpg",
+      "exported_path": "dist/assets/og.jpg",
+      "sha256": "ed40a7f6ba3fd0426edd1e8fe101c996b7bea57363debc544cca61e416ffeaf7",
+      "size_bytes": 221941
+    },
+    {
+      "source_path": "dist/contact/index.html",
+      "exported_path": "dist/contact/index.html",
+      "sha256": "034066f55aa31c98bf4256433a1a7166c8cf6e73a065ef9e14370e190fb50a9a",
+      "size_bytes": 5815
+    },
+    {
+      "source_path": "dist/diensten/index.html",
+      "exported_path": "dist/diensten/index.html",
+      "sha256": "3246ac1fcb93ab3131407d84ca9c098d95bad4e96f360d04f2d3d45c5403537c",
+      "size_bytes": 5962
+    },
+    {
+      "source_path": "dist/index.html",
+      "exported_path": "dist/index.html",
+      "sha256": "77712c5d5e444278930c8a421004c90f7a55bfec0850417e34d55dfa7befba6e",
+      "size_bytes": 9006
+    },
+    {
+      "source_path": "dist/over/index.html",
+      "exported_path": "dist/over/index.html",
+      "sha256": "0ae798698aa565be107895aa0ac55055ad81de7773f6416f1b9b7ed88a4e2379",
+      "size_bytes": 4395
+    },
+    {
+      "source_path": "dist/privacy/index.html",
+      "exported_path": "dist/privacy/index.html",
+      "sha256": "5301d45120f319d1adec6b4dca7ff1d0ed3c86b8d017ccb317dd60049263c671",
+      "size_bytes": 4125
+    },
+    {
+      "source_path": "dist/realisaties/index.html",
+      "exported_path": "dist/realisaties/index.html",
+      "sha256": "136a3bcee9851f3987f811dea6b9ed7abc16172153b7aac9e040bccddc9ff97d",
+      "size_bytes": 5968
+    },
+    {
+      "source_path": "dist/robots.txt",
+      "exported_path": "dist/robots.txt",
+      "sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+      "size_bytes": 26
+    },
+    {
+      "source_path": "dist/style.css",
+      "exported_path": "dist/style.css",
+      "sha256": "263dd078f9c498340fa4b873c58033cfef23e0214370a74050d028248ac34441",
+      "size_bytes": 17429
+    }
+  ],
+  "supplemental_original_upload_files": [
+    {
+      "path": "originals/5E94EB11-BD84-4FDE-8639-30B9B3DCA46D kopie 2.PNG",
+      "sha256": "ea33e18268497b72d1505608df0640c6a43a2f76b6d50162a597e2a94c9354f0",
+      "size_bytes": 1041559
+    },
+    {
+      "path": "originals/5E94EB11-BD84-4FDE-8639-30B9B3DCA46D kopie.PNG",
+      "sha256": "ea33e18268497b72d1505608df0640c6a43a2f76b6d50162a597e2a94c9354f0",
+      "size_bytes": 1041559
+    },
+    {
+      "path": "originals/IMG_6250.jpeg",
+      "sha256": "4feb0a67e673fcd033b160b2c5886b027d221c78e438d3671439f8263fb0e393",
+      "size_bytes": 6041534
+    },
+    {
+      "path": "originals/IMG_6251.jpeg",
+      "sha256": "ed8c3beac57000681b8d620b5f6fd90fb608b85b9ae4895c9f65c1049b68778d",
+      "size_bytes": 5540320
+    },
+    {
+      "path": "originals/IMG_6277.jpeg",
+      "sha256": "e26450881b4550ce93c96f6b914438f6c4b5e88b6c346f6850b4b1b725b9d467",
+      "size_bytes": 4444378
+    },
+    {
+      "path": "originals/IMG_6278.jpeg",
+      "sha256": "de836d35e1e7338f2c05b5f1aef2228df594286e92d7d4b78298ec3f7e6d9cdb",
+      "size_bytes": 7240469
+    }
+  ],
+  "original_upload_zip_sha256": "2803404da7cb3994dd90ee7711c0ee8c83ca80216d680c67c022437b2f005114",
+  "changes": [
+    "README expanded with local development and GitHub handoff instructions",
+    "Original README preserved byte-for-byte in docs/sites-readme-original.md",
+    "Added local verification script, CLAUDE.md, gitignore and source provenance",
+    "Added the six unchanged original uploaded image files"
+  ],
+  "site_content_changes": false,
+  "deployment_performed": false
+}

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-29",
+  "source_version": 1,
+  "source_commit": "062575d03a1c638634d84d6220d7d01206afa6ed",
+  "original_source_files_verified": 25,
+  "original_image_files_verified": 6,
+  "build_succeeded": true,
+  "build_output_byte_identical": true,
+  "html_pages_checked_including_404": 7,
+  "broken_links_or_assets": 0,
+  "javascript_syntax_check": "passed",
+  "secret_pattern_scan": "no matches; no .env files or Git session metadata included",
+  "local_browser_checks": [
+    "Home loaded",
+    "Realisaties page loaded",
+    "Dakgoot filter aria-pressed true",
+    "Contact page loaded",
+    "Demo request button visible"
+  ],
+  "github_created": false,
+  "github_reason": "Repository creation unsupported by connector; browser requires sign-in; authorized computers offline",
+  "public_site_modified": false,
+  "deployment_performed": false
+}

@@ -1,0 +1,76 @@
+name: Hydrocare immersive V2 - build and verify (NO DEPLOY)
+
+on:
+  push:
+    branches:
+      - feature/hydrocare-immersive-v2-20261029
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hydrocare-immersive-v2-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/feature/hydrocare-immersive-v2-20261029'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SITE_URL: https://hydrocare-preview.pages.dev
+      CI: "true"
+      DO_NOT_TRACK: "1"
+      IMPECCABLE_NO_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Generate customer preview and verify
+        run: |
+          python3 build.py
+          python3 scripts/check.py
+          node --check dist/app.js
+          git diff --check
+          grep -q 'noindex' dist/robots.txt || true
+          grep -q 'X-Robots-Tag: noindex' dist/_headers
+          grep -q 'Dit is een websitevoorstel' dist/index.html
+          grep -q 'Demonstratieformulier' dist/contact/index.html
+      - name: Impeccable detector benchmark
+        shell: bash
+        run: |
+          mkdir -p docs/immersive-v2
+          set +e
+          npx --yes impeccable@4.8.0 detect --json dist > docs/immersive-v2/detector-v2.json 2> docs/immersive-v2/detector-v2.stderr
+          rc=$?
+          set -e
+          echo "Impeccable exit: $rc (0 clean, 2 findings, 1 error)" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+            cat docs/immersive-v2/detector-v2.stderr
+            exit 1
+          fi
+      - name: Upload detector artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hydrocare-immersive-v2-detector
+          path: docs/immersive-v2/detector-v2.*
+          retention-days: 14
+      - name: Persist generated site HTML to the experiment branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/index.html dist/404.html dist/diensten/index.html dist/realisaties/index.html dist/over/index.html dist/contact/index.html dist/privacy/index.html dist/robots.txt dist/_headers
+          if git diff --cached --quiet; then
+            echo 'Generated site already matches source.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            git commit -m "build: regenerate immersive V2 preview HTML [skip ci]"
+            git push origin HEAD:feature/hydrocare-immersive-v2-20261029
+            echo 'Generated preview HTML committed to experiment branch.' >> "$GITHUB_STEP_SUMMARY"
+          fi

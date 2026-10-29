@@ -54,3 +54,21 @@ if(reveals.length){
   if(calm||!('IntersectionObserver' in window)){document.documentElement.classList.add('js');reveals.forEach(r=>r.classList.add('in'))}
   else{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px',threshold:.06});reveals.forEach(r=>io.observe(r));document.documentElement.classList.add('js')}
 }
+
+/* ---- Depth, story and reading progress (one rAF loop; CSSOM only, no inline style attributes) ---- */
+{const root=document.documentElement,bar=document.createElement('div'),hero=$('[data-hero]'),deep=$$('.proof-fig,.cta-photo'),story=$('[data-story]');
+  bar.className='progress';bar.setAttribute('aria-hidden','true');document.body.append(bar);
+  const steps=story?$$('[data-step]',story):[],now=story?$('[data-story-now]',story):null;
+  let queued=false;
+  const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+  function frame(){queued=false;const vh=innerHeight,max=root.scrollHeight-vh;
+    root.style.setProperty('--sp',max>0?clamp(scrollY/max,0,1).toFixed(4):'0');
+    if(!calm){
+      if(hero)hero.style.setProperty('--hp',clamp(scrollY/(hero.offsetHeight||1),0,1).toFixed(4));
+      deep.forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<-vh*.3||r.top>vh*1.3)return;el.style.setProperty('--d',clamp(((r.top+r.height/2)-vh/2)/vh,-1.2,1.2).toFixed(4))})}
+    if(story){const list=steps[0].parentElement.getBoundingClientRect(),p=clamp((vh*.6-list.top)/list.height,0,1);
+      story.style.setProperty('--prog',(.08+.92*p).toFixed(4));
+      let idx=0;steps.forEach((s,i)=>{if(s.getBoundingClientRect().top<vh*.55)idx=i});
+      steps.forEach((s,i)=>s.classList.toggle('is-active',i===idx));now.textContent='0'+(idx+1)}}
+  const ask=()=>{if(!queued){queued=true;requestAnimationFrame(frame)}};
+  addEventListener('scroll',ask,{passive:true});addEventListener('resize',ask);frame()}
